@@ -32,6 +32,14 @@ from huggingface_hub.utils._errors import (
 )
 from requests import HTTPError
 from rich.console import Console
+from rich.progress import (
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    TextColumn,
+    TimeElapsedColumn,
+    TimeRemainingColumn,
+)
 
 from core.config import config
 from core.files import get_full_model_path
@@ -43,6 +51,28 @@ config_name = "model_index.json"
 
 torch_older_than_200 = version.parse(torch.__version__) < version.parse("2.0.0")
 torch_newer_than_201 = version.parse(torch.__version__) > version.parse("2.0.1")
+
+
+progress_bar_style = Progress(
+    TextColumn("{task.description}"),
+    TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+    BarColumn(),
+    MofNCompleteColumn(),
+    TextColumn("•"),
+    TimeElapsedColumn(),
+    TextColumn("•"),
+    TimeRemainingColumn(),
+)
+
+
+def is_aitemplate_available():
+    "Checks whether AITemplate is available."
+    try:
+        import aitemplate  # pylint: disable=unused-import
+
+        return True
+    except ImportError:
+        return False
 
 
 def is_ipex_available():

@@ -133,6 +133,7 @@ class APIConfig:
     clear_memory_policy: Literal["always", "after_disconnect", "never"] = "always"
     offload: Literal["module", "model", "disabled"] = "disabled"
     data_type: Literal["float32", "float16", "bfloat16"] = "float16"
+    unload_destination: Literal["null", "cpu"] = "cpu"
 
     # CUDA specific optimizations
     reduced_precision: bool = False
