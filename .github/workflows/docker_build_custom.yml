@@ -3,6 +3,8 @@ name: Docker Build Custom
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - ".github/workflows/docker_build_main.yml"
     branches:
       - "main"
 
@@ -34,5 +36,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: zaks/vml:base
+          tags: zaks/vml:basessh
           file: dockerfile.ssh

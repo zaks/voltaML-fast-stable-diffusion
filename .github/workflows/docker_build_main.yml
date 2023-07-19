@@ -3,7 +3,7 @@ name: Docker Build Main
 on:
   workflow_dispatch:
   push:
-    ignore-paths:
+    paths-ignore:
       - ".github/workflows/docker_build_custom.yml"
       - "dockerfile.ssh"
     branches:
