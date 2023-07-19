@@ -26,4 +26,4 @@ jobs:
         with:
           push: true
           tags: zaks/vml:base
-          dockerfile: dockerfile.ssh
+          file: dockerfile.ssh
