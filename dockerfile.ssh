@@ -1,0 +1,24 @@
+FROM zaks/vml:base
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install ssh
+RUN apt-get update && \
+    apt-get install -y openssh-server && \
+    mkdir /var/run/sshd && \
+    echo 'root:rootme123' | chpasswd && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/' /etc/ssh/sshd_config && \
+    echo "export VISIBLE=now" >> /etc/profile
+
+EXPOSE 22
+
+# Fix cache linkage for runpod
+RUN rm -rf /root/.cache /app/data
+RUN ln -s /workspace/cache /root/.cache && ln -s /workspace/app-data /app/data
+
+# Run the server
+WORKDIR /app
+ENTRYPOINT ["bash", "./scripts/start.sh"]
+CMD [ "/usr/sbin/sshd" ]
