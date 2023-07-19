@@ -7,12 +7,12 @@ on:
       - "main"
 
 concurrency:
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
   docker:
     runs-on: ubuntu-20.04
-    cancelable: true
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
